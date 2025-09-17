@@ -130,6 +130,7 @@ button:hover,
   text-decoration: line-through;
   color: gray;
 }
+
 /* dialog delete */
 .dialog-backdrop {
   position: fixed;
@@ -245,4 +246,25 @@ button:hover,
   100% {
     transform: rotate(360deg);
   }
+}
+
+/* dialog update */
+.dialog-body input {
+  width: 100%;
+  padding: 8px;
+  border-radius: 8px;
+  border: 1px solid gray;
+}
+
+input:focus {
+  border: 2px solid gray;
+  outline: none;
+}
+
+.btn-confirm-update {
+  padding: 6px 12px;
+  border: none;
+  background: blue;
+  color: white;
+  border-radius: 4px;
 }

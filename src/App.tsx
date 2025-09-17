@@ -13,6 +13,7 @@ const API = "http://localhost:3000/todos";
 function App() {
   const [todos, setTodos] = useState<Todo[]>([]);
   const [openDialogDel, setOpenDialogDel] = useState<boolean>(false);
+  const [openDialogEdit, setOpenDialogEdit] = useState<boolean>(false);
   const [todoDeleted, setTodoDeleted] = useState<Todo | null>(null);
   const [valueInput, setValueInput] = useState<string>("");
   const [error, setError] = useState<string>("");
@@ -80,6 +81,11 @@ function App() {
     } finally {
       setloading(false);
     }
+  };
+
+  // update
+  const closeDialogEdit = () => {
+    setOpenDialogEdit(false);
   };
 
   // create
@@ -204,6 +210,38 @@ function App() {
 
       {allDone && (
         <div className="all-done">Tất cả công việc đã hoàn thành</div>
+      )}
+
+      {/* dialog update */}
+      {openDialogEdit && (
+        <div className="dialog-backdrop">
+          <div className="dialog-box">
+            <div className="dialog-header">
+              <h3>Sửa công việc</h3>
+              <button className="btn-close" onClick={closeDialogDel}>
+                ✖
+              </button>
+            </div>
+
+            <div className="dialog-body">
+              <input type="text" />
+            </div>
+
+            <div className="dialog-footer">
+              <button className="btn-cancel" onClick={closeDialogDel}>
+                Hủy
+              </button>
+              <button
+                className="btn-confirm-update"
+                onClick={() =>
+                  todoDeleted && handClickBtnleDelete(todoDeleted.id)
+                }
+              >
+                Cập nhật
+              </button>
+            </div>
+          </div>
+        </div>
       )}
 
       {/*dialog delete  */}
