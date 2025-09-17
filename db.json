@@ -1,0 +1,19 @@
+{
+  "todos": [
+    {
+      "id": "1",
+      "content": "Học React",
+      "isDone": true
+    },
+    {
+      "id": "4",
+      "content": "Đọc tài liệu về Redux",
+      "isDone": false
+    },
+    {
+      "id": "7",
+      "content": "abc",
+      "isDone": true
+    }
+  ]
+}

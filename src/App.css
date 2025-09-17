@@ -1,0 +1,248 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: sans-serif;
+}
+
+.container {
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  margin: 20px;
+  padding: 20px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.container h2 {
+  text-align: center;
+}
+
+form {
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  border-radius: 10px;
+  gap: 10px;
+}
+
+form small {
+  color: red;
+}
+
+form input {
+  padding: 9px;
+  border: 1px solid gray;
+  border-radius: 8px;
+}
+
+form input:focus {
+  border: 2px solid gray;
+  outline: none;
+}
+
+form button {
+  background-color: blue;
+  color: white;
+  padding: 8px 20px;
+  border-radius: 8px;
+  border: none;
+}
+
+button:hover,
+.item .action span:hover {
+  cursor: pointer;
+  opacity: 0.7;
+}
+
+.group-btn-top {
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  padding: 20px;
+  border-radius: 8px;
+
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.group-btn-top button {
+  background-color: white;
+  color: gray;
+  padding: 8px 20px;
+  border-radius: 8px;
+  border: none;
+  border: 1px solid gray;
+}
+
+.group-btn-top button:hover,
+.active {
+  background-color: blue;
+  color: white;
+}
+
+.list-data {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  max-height: 230px;
+  overflow-y: auto;
+}
+
+.list-data .item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+
+  padding: 8px;
+  border-radius: 4px;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+}
+
+.list-data .item p {
+  flex: 1;
+  text-align: left;
+}
+
+.list-data .item .action {
+  display: flex;
+  gap: 10px;
+}
+
+.group-btn-bottom {
+  display: flex;
+  gap: 20px;
+}
+
+.group-btn-bottom button {
+  flex: 1;
+  padding: 8px;
+  border-radius: 8px;
+  background-color: red;
+  color: white;
+  border: none;
+}
+
+.text-under {
+  text-decoration: line-through;
+  color: gray;
+}
+/* dialog delete */
+.dialog-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.dialog-box {
+  background: #fff;
+  width: 400px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  animation: 0.2s ease-in-out;
+}
+
+.dialog-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+}
+
+.dialog-header button {
+  border: none;
+  background-color: white;
+  font-size: 20px;
+}
+
+.dialog-body {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 16px;
+}
+
+.dialog-body .icon {
+  color: red;
+  font-size: 20px;
+}
+
+.dialog-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 12px 16px;
+}
+
+.btn-cancel {
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  background: #fff;
+  border-radius: 4px;
+}
+
+.btn-cancel:hover {
+  background-color: lightblue;
+}
+
+.btn-confirm {
+  padding: 6px 12px;
+  border: none;
+  background: #f44336;
+  color: white;
+  border-radius: 4px;
+}
+
+.all-done {
+  border-radius: 8px;
+  padding: 10px;
+  text-align: center;
+  background-color: lightblue;
+  color: rgb(10, 10, 101);
+  font-size: 20px;
+  font-weight: 600;
+}
+
+/* loading */
+.loading-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  z-index: 9999;
+  color: #fff;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.spinner {
+  width: 60px;
+  height: 60px;
+  border: 6px solid #fff;
+  border-top: 6px solid #3498db;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 15px;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
