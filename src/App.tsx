@@ -88,6 +88,17 @@ function App() {
     setOpenDialogEdit(false);
   };
 
+  const openDialogEditFn = (id: string) => {
+    setOpenDialogEdit(true);
+
+    const result = todos.find((el) => el.id === id);
+    if (result) {
+      setTodoDeleted(result);
+    } else {
+      console.log("Không tìm thấy bản ghi cần sửa");
+    }
+  };
+
   // create
   const handleChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValueInput(e.target.value.trim());
@@ -194,7 +205,7 @@ function App() {
                 </p>
 
                 <div className="action">
-                  <span>✏️</span>
+                  <span onClick={() => openDialogEditFn(todo.id)}>✏️</span>
                   <span onClick={() => openDialogDelete(todo.id)}>🗑️</span>
                 </div>
               </div>
@@ -218,7 +229,7 @@ function App() {
           <div className="dialog-box">
             <div className="dialog-header">
               <h3>Sửa công việc</h3>
-              <button className="btn-close" onClick={closeDialogDel}>
+              <button className="btn-close" onClick={closeDialogEdit}>
                 ✖
               </button>
             </div>
@@ -228,7 +239,7 @@ function App() {
             </div>
 
             <div className="dialog-footer">
-              <button className="btn-cancel" onClick={closeDialogDel}>
+              <button className="btn-cancel" onClick={closeDialogEdit}>
                 Hủy
               </button>
               <button
