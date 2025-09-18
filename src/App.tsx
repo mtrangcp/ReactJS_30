@@ -12,10 +12,10 @@ const API = "http://localhost:3000/todos";
 
 function App() {
   const [todos, setTodos] = useState<Todo[]>([]);
-  //
+  // del item
   const [openDialogDel, setOpenDialogDel] = useState<boolean>(false);
   const [todoDeleted, setTodoDeleted] = useState<Todo | null>(null);
-  //
+  // update item
   const [openDialogEdit, setOpenDialogEdit] = useState<boolean>(false);
   const [valueInputEdit, setValueInputEdit] = useState<string>("");
   const [todoUpdated, setTodoUpdated] = useState<Todo | null>(null);
@@ -25,10 +25,11 @@ function App() {
   const [error, setError] = useState<string>("");
   const [loading, setloading] = useState<boolean>(false);
   const [allDone, setAllDone] = useState<boolean>(false);
-
-  //
+  // filter
   const [listRender, setListRender] = useState<Todo[]>([]);
   const [activeBtn, setActiveBtn] = useState<string>("all");
+  //  del all completed
+  const [openDgDelAllCpl, setOpenDgDelAllCpl] = useState<boolean>(false);
 
   async function getAllTodo() {
     try {
@@ -207,6 +208,31 @@ function App() {
     setActiveBtn(name);
   };
 
+  // del all cpl
+
+  const closeDgDelAllCpl = () => {
+    setOpenDgDelAllCpl(false);
+  };
+
+  const handleDelAllCompleted = async () => {
+    try {
+      setloading(true);
+
+      const listCpl = todos.filter((el) => el.isDone);
+
+      await Promise.all(
+        listCpl.map((todo) => axios.delete(`${API}/${todo.id}`))
+      );
+
+      await getAllTodo();
+      setOpenDgDelAllCpl(false);
+    } catch (error) {
+      console.error("Error: ", error);
+    } finally {
+      setloading(false);
+    }
+  };
+
   return (
     <div className="container">
       <h2>QUẢN LÝ CÔNG VIỆC</h2>
@@ -276,7 +302,9 @@ function App() {
       )}
 
       <div className="group-btn-bottom">
-        <button>Xóa công việc hoàn thành</button>
+        <button onClick={() => setOpenDgDelAllCpl(true)}>
+          Xóa công việc hoàn thành
+        </button>
         <button>Xóa tất cả công việc</button>
       </div>
 
@@ -345,6 +373,31 @@ function App() {
                   todoDeleted && handClickBtnDelete(todoDeleted.id)
                 }
               >
+                Xóa
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/*dialog delete all todo completed*/}
+      {openDgDelAllCpl && (
+        <div className="dialog-backdrop">
+          <div className="dialog-box">
+            <div className="dialog-header">
+              <h3>Xác nhận</h3>
+              <button className="btn-close" onClick={closeDgDelAllCpl}>
+                ✖
+              </button>
+            </div>
+            <div className="dialog-body">
+              <p>Có chắc chắn xóa tất cả công việc đã hoàn thành</p>
+            </div>
+            <div className="dialog-footer">
+              <button className="btn-cancel" onClick={closeDgDelAllCpl}>
+                Hủy
+              </button>
+              <button className="btn-confirm" onClick={handleDelAllCompleted}>
                 Xóa
               </button>
             </div>
