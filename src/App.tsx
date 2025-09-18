@@ -12,15 +12,23 @@ const API = "http://localhost:3000/todos";
 
 function App() {
   const [todos, setTodos] = useState<Todo[]>([]);
+  //
   const [openDialogDel, setOpenDialogDel] = useState<boolean>(false);
-  const [openDialogEdit, setOpenDialogEdit] = useState<boolean>(false);
   const [todoDeleted, setTodoDeleted] = useState<Todo | null>(null);
+  //
+  const [openDialogEdit, setOpenDialogEdit] = useState<boolean>(false);
+  const [valueInputEdit, setValueInputEdit] = useState<string>("");
+  const [todoUpdated, setTodoUpdated] = useState<Todo | null>(null);
+  const [errorEdit, setErrorEdit] = useState<string>("");
+  //
   const [valueInput, setValueInput] = useState<string>("");
   const [error, setError] = useState<string>("");
   const [loading, setloading] = useState<boolean>(false);
   const [allDone, setAllDone] = useState<boolean>(false);
 
+  //
   const [listRender, setListRender] = useState<Todo[]>([]);
+  const [activeBtn, setActiveBtn] = useState<string>("all");
 
   async function getAllTodo() {
     try {
@@ -67,7 +75,7 @@ function App() {
     }
   };
 
-  const handClickBtnleDelete = async (id: string) => {
+  const handClickBtnDelete = async (id: string) => {
     try {
       setloading(true);
 
@@ -93,9 +101,40 @@ function App() {
 
     const result = todos.find((el) => el.id === id);
     if (result) {
-      setTodoDeleted(result);
+      setValueInputEdit(result.content);
+      setTodoUpdated(result);
     } else {
       console.log("Không tìm thấy bản ghi cần sửa");
+    }
+  };
+
+  const handClickBtnEdit = async (id: string) => {
+    setErrorEdit("");
+    if (valueInputEdit) {
+      if (!todos.find((el) => el.content === valueInputEdit)) {
+        const newObj = {
+          ...todoUpdated,
+          content: valueInputEdit,
+        };
+
+        try {
+          setloading(true);
+
+          await axios.put(`${API}/${id}`, newObj);
+          await getAllTodo();
+
+          setOpenDialogEdit(false);
+          setTodoUpdated(null);
+        } catch (error) {
+          console.error("Error: ", error);
+        } finally {
+          setloading(false);
+        }
+      } else {
+        setErrorEdit("Dữ liệu không được trùng");
+      }
+    } else {
+      setErrorEdit("Dữ liệu không được để trống");
     }
   };
 
@@ -163,6 +202,10 @@ function App() {
   };
 
   // filter
+  const handleFilterTodoCompleted = (status: boolean, name: string) => {
+    setListRender(todos.filter((el) => el.isDone === status));
+    setActiveBtn(name);
+  };
 
   return (
     <div className="container">
@@ -180,9 +223,27 @@ function App() {
       </form>
 
       <div className="group-btn-top">
-        <button>Tất cả</button>
-        <button>Hoàn thành</button>
-        <button>Đang thực hiện</button>
+        <button
+          className={activeBtn === "all" ? "active" : ""}
+          onClick={() => {
+            setListRender(todos);
+            setActiveBtn("all");
+          }}
+        >
+          Tất cả
+        </button>
+        <button
+          className={activeBtn === "completed" ? "active" : ""}
+          onClick={() => handleFilterTodoCompleted(true, "completed")}
+        >
+          Hoàn thành
+        </button>
+        <button
+          className={activeBtn === "doing" ? "active" : ""}
+          onClick={() => handleFilterTodoCompleted(false, "doing")}
+        >
+          Đang thực hiện
+        </button>
       </div>
 
       {loading ? (
@@ -235,7 +296,14 @@ function App() {
             </div>
 
             <div className="dialog-body">
-              <input type="text" />
+              <input
+                type="text"
+                value={valueInputEdit}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  setValueInputEdit(e.target.value.trim())
+                }
+              />
+              {errorEdit && <small>{errorEdit}</small>}
             </div>
 
             <div className="dialog-footer">
@@ -244,9 +312,7 @@ function App() {
               </button>
               <button
                 className="btn-confirm-update"
-                onClick={() =>
-                  todoDeleted && handClickBtnleDelete(todoDeleted.id)
-                }
+                onClick={() => todoUpdated && handClickBtnEdit(todoUpdated.id)}
               >
                 Cập nhật
               </button>
@@ -276,7 +342,7 @@ function App() {
               <button
                 className="btn-confirm"
                 onClick={() =>
-                  todoDeleted && handClickBtnleDelete(todoDeleted.id)
+                  todoDeleted && handClickBtnDelete(todoDeleted.id)
                 }
               >
                 Xóa

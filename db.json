@@ -2,18 +2,18 @@
   "todos": [
     {
       "id": "1",
-      "content": "Học React",
-      "isDone": true
+      "content": "conan",
+      "isDone": false
     },
     {
       "id": "4",
-      "content": "Đọc tài liệu về Redux",
-      "isDone": false
+      "content": "hai ba ra",
+      "isDone": true
     },
     {
       "id": "7",
       "content": "abc",
-      "isDone": true
+      "isDone": false
     }
   ]
 }

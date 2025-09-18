@@ -28,7 +28,8 @@ form {
   gap: 10px;
 }
 
-form small {
+form small,
+.dialog-body small {
   color: red;
 }
 
@@ -78,8 +79,8 @@ button:hover,
 
 .group-btn-top button:hover,
 .active {
-  background-color: blue;
-  color: white;
+  background-color: blue !important;
+  color: white !important;
 }
 
 .list-data {
@@ -166,6 +167,7 @@ button:hover,
 
 .dialog-body {
   display: flex;
+  flex-direction: column;
   align-items: center;
   gap: 8px;
   padding: 16px;
